@@ -2,6 +2,7 @@
 #define C12CXX_C12CXX_H
 
 #include <c12cxx/details/Component.h>
+#include <c12cxx/details/utfutils.h>
 #include <functional>
 #include <mutex>
 #include <sstream>
