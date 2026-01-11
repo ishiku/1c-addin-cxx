@@ -67,10 +67,11 @@ private:
     struct TYPE##Registrar {                                                                               \
         TYPE##Registrar()                                                                                  \
         {                                                                                                  \
-            c12cxx::FactoryRegistry::instance().registerFactory(TYPE::kComponentName, []() { return new TYPE(); }); \
+            c12cxx::FactoryRegistry::instance().registerFactory(TYPE::kComponentName,                      \
+                                                                []() { return new TYPE(); }); /* NOLINT */ \
         }                                                                                                  \
     };                                                                                                     \
-    static TYPE##Registrar global_##TYPE##_registrar;                                                      \
+    static const TYPE##Registrar global_##TYPE##_registrar;                                                \
     }
 
 } // namespace c12cxx

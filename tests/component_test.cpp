@@ -33,7 +33,7 @@ void setBoolData(bool value)
     data = value;
 }
 
-static constexpr char16_t kComponentName[] = u"TestComponent";
+constexpr char16_t kComponentName[] = u"TestComponent";
 
 class TestComponent final: public c12cxx::Component {
 public:
@@ -889,13 +889,12 @@ TEST_F(TestComponentFixture, CallAsFunc)
 
     tVariant result;
 
-    EXPECT_TRUE( ext->CallAsFunc(component().methods().size()-1, &result, &param, 1) );
+    EXPECT_TRUE(ext->CallAsFunc(component().methods().size() - 1, &result, &param, 1));
 
-    EXPECT_EQ( param.vt, result.vt );
-    EXPECT_NE( result.pwstrVal, nullptr );
-    EXPECT_EQ( param.wstrLen, result.wstrLen );
+    EXPECT_EQ(param.vt, result.vt);
+    EXPECT_NE(result.pwstrVal, nullptr);
+    EXPECT_EQ(param.wstrLen, result.wstrLen);
     EXPECT_TRUE(std::equal(test.begin(), test.end(), result.pwstrVal));
-
 
     EXPECT_FALSE(component().hasError());
 }

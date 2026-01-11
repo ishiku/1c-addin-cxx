@@ -7,35 +7,30 @@
 #define __ADAPTER_DEF_H__
 #include "types.h"
 
-struct IInterface
-{
-};
+struct IInterface { };
 
-
-enum Interfaces
-{
+enum Interfaces {
     eIMsgBox = 0,
     eIPlatformInfo,
 
 #if defined(__ANDROID__)
-    
+
     eIAndroidComponentHelper,
 
-#endif    
+#endif
 
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 /**
- * This class serves as representation of a platform for external 
+ * This class serves as representation of a platform for external
  * components External components use it to communicate with a platform.
  *
  */
 /// Base interface for object components.
-class IAddInDefBase
-{
+class IAddInDefBase {
 public:
-    virtual ~IAddInDefBase() {}
+    virtual ~IAddInDefBase() { }
     /// Adds the error message
     /**
      *  @param wcode - error code
@@ -44,8 +39,7 @@ public:
      *  @param scode - error code (HRESULT)
      *  @return the result of
      */
-    virtual bool ADDIN_API AddError(unsigned short wcode, const WCHAR_T* source,
-				    const WCHAR_T* descr, long scode) = 0;
+    virtual bool ADDIN_API AddError(unsigned short wcode, const WCHAR_T* source, const WCHAR_T* descr, long scode) = 0;
 
     /// Reads a property value
     /**
@@ -55,20 +49,16 @@ public:
      *  @param errDescriptor - error description (if any error occured)
      *  @return the result of read.
      */
-    virtual bool ADDIN_API Read(WCHAR_T* wszPropName,
-				tVariant* pVal,
-				long *pErrCode,
-				WCHAR_T** errDescriptor) = 0;
+    virtual bool ADDIN_API Read(WCHAR_T* wszPropName, tVariant* pVal, long* pErrCode, WCHAR_T** errDescriptor) = 0;
     /// Writes a property value
     /**
      *  @param wszPropName - property name
      *  @param pVar - new property value
      *  @return the result of write.
      */
-    virtual bool ADDIN_API Write(WCHAR_T* wszPropName,
-				 tVariant *pVar) = 0;
+    virtual bool ADDIN_API Write(WCHAR_T* wszPropName, tVariant* pVar) = 0;
 
-    ///Registers profile components
+    /// Registers profile components
     /**
      *  @param wszProfileName - profile name
      *  @return the result of
@@ -93,9 +83,7 @@ public:
      *  @param wszData - message parameters
      *  @return the result of
      */
-    virtual bool ADDIN_API ExternalEvent(WCHAR_T* wszSource, 
-					 WCHAR_T* wszMessage, 
-					 WCHAR_T* wszData) = 0;
+    virtual bool ADDIN_API ExternalEvent(WCHAR_T* wszSource, WCHAR_T* wszMessage, WCHAR_T* wszData) = 0;
     /// Clears event buffer
     /**
      */
@@ -114,28 +102,21 @@ public:
     virtual void ADDIN_API ResetStatusLine() = 0;
 };
 
-class IAddInDefBaseEx :
-    public IAddInDefBase
-{
+class IAddInDefBaseEx: public IAddInDefBase {
 public:
-    virtual ~IAddInDefBaseEx() {}
+    virtual ~IAddInDefBaseEx() { }
 
     virtual IInterface* ADDIN_API GetInterface(Interfaces iface) = 0;
 };
 
-struct IMsgBox : 
-    public IInterface
-{
+struct IMsgBox: public IInterface {
     virtual bool ADDIN_API Confirm(const WCHAR_T* queryText, tVariant* retVal) = 0;
 
     virtual bool ADDIN_API Alert(const WCHAR_T* text) = 0;
 };
 
-struct IPlatformInfo :
-    public IInterface
-{
-    enum AppType
-    {            
+struct IPlatformInfo: public IInterface {
+    enum AppType {
         eAppUnknown = -1,
         eAppThinClient = 0,
         eAppThickClient,
@@ -146,11 +127,10 @@ struct IPlatformInfo :
         eAppMobileServer,
     };
 
-    struct AppInfo
-    {
+    struct AppInfo {
         const WCHAR_T* AppVersion;
         const WCHAR_T* UserAgentInformation;
-        AppType  Application;
+        AppType Application;
     };
 
     virtual const AppInfo* ADDIN_API GetPlatformInfo() = 0;

@@ -3,21 +3,19 @@
  *       DO NOT ALTER THIS FILE!
  */
 
-
 #ifndef __COMPONENT_BASE_H__
 #define __COMPONENT_BASE_H__
 
 #include "types.h"
 ////////////////////////////////////////////////////////////////////////////////
 /**
- *  The given interface is intended for initialization and 
+ *  The given interface is intended for initialization and
  *  uninitialization of component and its adjustments
  */
 /// Interface of component initialization.
-class IInitDoneBase
-{
+class IInitDoneBase {
 public:
-    virtual ~IInitDoneBase() {}
+    virtual ~IInitDoneBase() { }
     /// Initializes component
     /**
      *  @param disp - 1C:Enterpise interface
@@ -42,17 +40,15 @@ public:
      *  Component here should release all consumed resources.
      */
     virtual void ADDIN_API Done() = 0;
-
 };
 ///////////////////////////////////////////////////////////////////////////
 /**
  *  The given interface defines methods that are intented to be used by the Platform
  */
 /// Interface describing extension of language.
-class ILanguageExtenderBase
-{
+class ILanguageExtenderBase {
 public:
-    virtual ~ILanguageExtenderBase(){}
+    virtual ~ILanguageExtenderBase() { }
     /// Registers language extension
     /**
      *  @param wsExtensionName - extension name
@@ -80,8 +76,7 @@ public:
      *      1 - russian alias. (International alias is required)
      *  @return proeprty name or 0 if it is not found
      */
-    virtual const WCHAR_T* ADDIN_API GetPropName(long lPropNum,  
-						 long lPropAlias) = 0;
+    virtual const WCHAR_T* ADDIN_API GetPropName(long lPropNum, long lPropAlias) = 0;
 
     /// Returns property value
     /**
@@ -89,8 +84,7 @@ public:
      *  @param pvarPropVal - the pointer to a variable for property value
      *  @return the result of
      */
-    virtual bool ADDIN_API GetPropVal(const long lPropNum, 
-				      tVariant* pvarPropVal) = 0;
+    virtual bool ADDIN_API GetPropVal(const long lPropNum, tVariant* pvarPropVal) = 0;
 
     /// Sets the property value
     /**
@@ -98,8 +92,7 @@ public:
      *  @param varPropVal - the pointer to a variable for property value
      *  @return the result of
      */
-    virtual bool ADDIN_API SetPropVal(const long lPropNum, 
-				      tVariant* varPropVal) = 0;
+    virtual bool ADDIN_API SetPropVal(const long lPropNum, tVariant* varPropVal) = 0;
 
     /// Is property readable?
     /**
@@ -121,7 +114,7 @@ public:
      */
     virtual long ADDIN_API GetNMethods() = 0;
 
-    /// Finds a method by name 
+    /// Finds a method by name
     /**
      *  @param wsMethodName - method name
      *  @return - method index
@@ -135,8 +128,7 @@ public:
      *      1 - russian alias. (International alias is required)
      *  @return method name or 0 if method is not found
      */
-    virtual const WCHAR_T* ADDIN_API GetMethodName(const long lMethodNum, 
-						   const long lMethodAlias) = 0;
+    virtual const WCHAR_T* ADDIN_API GetMethodName(const long lMethodNum, const long lMethodAlias) = 0;
 
     /// Returns number of method parameters
     /**
@@ -152,9 +144,9 @@ public:
      *  @param pvarParamDefValue - the pointer to a variable for default value
      *  @return the result of
      */
-    virtual bool ADDIN_API GetParamDefValue(const long lMethodNum, 
-					    const long lParamNum,
-					    tVariant *pvarParamDefValue) = 0;
+    virtual bool ADDIN_API GetParamDefValue(const long lMethodNum,
+                                            const long lParamNum,
+                                            tVariant* pvarParamDefValue) = 0;
 
     /// Does the method have a return value?
     /**
@@ -170,9 +162,7 @@ public:
      *  @param lSizeArray - the size of array
      *  @return the result of
      */
-    virtual bool ADDIN_API CallAsProc(const long lMethodNum,
-				      tVariant* paParams, 
-				      const long lSizeArray) = 0;
+    virtual bool ADDIN_API CallAsProc(const long lMethodNum, tVariant* paParams, const long lSizeArray) = 0;
 
     /// Calls the method as a function
     /**
@@ -183,22 +173,21 @@ public:
      *  @return the result of
      */
     virtual bool ADDIN_API CallAsFunc(const long lMethodNum,
-				      tVariant* pvarRetValue, 
-				      tVariant* paParams, 
-				      const long lSizeArray) = 0;    
+                                      tVariant* pvarRetValue,
+                                      tVariant* paParams,
+                                      const long lSizeArray) = 0;
 };
 ///////////////////////////////////////////////////////////////////////////
 /**
  *  This interface is used to change component locale
  */
 /// Base interface for component localization.
-class LocaleBase
-{
+class LocaleBase {
 public:
-    virtual ~LocaleBase(){}
+    virtual ~LocaleBase() { }
     /// Changes component locale
     /**
-     *  @param loc - new locale (for Windows - rus_RUS, 
+     *  @param loc - new locale (for Windows - rus_RUS,
      *      for Linux - ru_RU, etc...)
      */
     virtual void ADDIN_API SetLocale(const WCHAR_T* loc) = 0;
@@ -206,21 +195,16 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////
 /**
- *  The given interface is generalized, for its obligatory inheritance 
+ *  The given interface is generalized, for its obligatory inheritance
  *  in implementing components.
  */
 ///  Base interface describing object as a set of properties and methods.
-class IComponentBase :
-public IInitDoneBase,
-    public ILanguageExtenderBase,
-    public LocaleBase
-{
+class IComponentBase: public IInitDoneBase, public ILanguageExtenderBase, public LocaleBase {
 public:
-    virtual ~IComponentBase(){}
+    virtual ~IComponentBase() { }
 };
 
-enum AppCapabilities
-{
+enum AppCapabilities {
     eAppCapabilitiesInvalid = -1,
     eAppCapabilities1 = 1,
     eAppCapabilitiesLast = eAppCapabilities1,
@@ -228,7 +212,7 @@ enum AppCapabilities
 
 /// Announcements of exported functions
 /**
- * These functions should be implemented that component can be loaded and created. 
+ * These functions should be implemented that component can be loaded and created.
  */
 extern "C" long GetClassObject(const WCHAR_T*, IComponentBase** pIntf);
 extern "C" long DestroyObject(IComponentBase** pIntf);

@@ -110,7 +110,7 @@ TEST_F(MethodWrapperFixture, doCall)
     EXPECT_TRUE(wrapper(vRet, vParams));
 
     EXPECT_EQ(TV_VT(&vars[0]), VTYPE_BOOL);
-    EXPECT_FALSE( vars[0].bVal );
+    EXPECT_FALSE(vars[0].bVal);
 
     EXPECT_EQ(TV_VT(&vars[1]), VTYPE_I4);
     EXPECT_EQ(vars[1].lVal, 999);
@@ -126,20 +126,20 @@ TEST_F(MethodWrapperFixture, doCall)
     EXPECT_NE(vars[4].pwstrVal, nullptr);
     EXPECT_NE(vars[4].pwstrVal, reinterpret_cast<WCHAR_T*>(u16TestString.data()));
     EXPECT_EQ(vars[4].wstrLen, u16TestString.size());
-    for(size_t i = 0; i < vars[4].wstrLen; ++i)
+    for (size_t i = 0; i < vars[4].wstrLen; ++i)
         EXPECT_EQ(vars[4].pwstrVal[i], u'1');
 
     EXPECT_EQ(TV_VT(&vars[5]), VTYPE_PSTR);
     EXPECT_NE(vars[5].pstrVal, nullptr);
     EXPECT_NE(vars[5].pstrVal, reinterpret_cast<char*>(testString.data()));
     EXPECT_EQ(vars[5].strLen, testString.size());
-    for(size_t i = 0; i < vars[5].strLen; ++i)
+    for (size_t i = 0; i < vars[5].strLen; ++i)
         EXPECT_EQ(vars[5].pstrVal[i], '2');
 
     EXPECT_EQ(TV_VT(&vars[6]), VTYPE_BLOB);
     EXPECT_NE(vars[6].pstrVal, nullptr);
     EXPECT_NE(vars[6].pstrVal, reinterpret_cast<char*>(testBlob.data()));
     EXPECT_EQ(vars[6].strLen, testBlob.size());
-    for(size_t i = 0; i < vars[6].strLen; ++i)
+    for (size_t i = 0; i < vars[6].strLen; ++i)
         EXPECT_EQ(vars[6].pstrVal[i], 3);
 }

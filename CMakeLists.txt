@@ -17,9 +17,11 @@ include(cmake/ClangFormat.cmake)
 
 string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" is_top_level)
 
-# C12CXX_SHARED_LIBS option (undefined by default) can be used to force shared/static build
-option(C12CXX_BUILD_TESTS "Build c12cxx tests" ON)
-option(C12CXX_BUILD_EXAMPLES "Build c12cxx examples" ON)
+option(C12CXX_TIDY "run clang-tidy" ON)
+option(C12CXX_BUILD_PIC "Build position independent code (-fPIC)" ON)
+
+option(C12CXX_BUILD_TESTS "Build c12cxx tests" OFF)
+option(C12CXX_BUILD_EXAMPLES "Build c12cxx examples" OFF)
 option(C12CXX_BUILD_DOCS "Build c12cxx documentation" OFF)
 option(C12CXX_INSTALL "Generate target for installing c12cxx" ${is_top_level})
 set_if_undefined(C12CXX_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/c12cxx" CACHE STRING
@@ -30,8 +32,19 @@ if(NOT DEFINED CMAKE_BUILD_TYPE AND NOT DEFINED CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
-find_program(CLANG_TIDY_EXE NAMES "clang-tidy" REQUIRED)
-set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "-checks=-*,modernize-*")
+if(C12CXX_TIDY)
+    set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+    message(STATUS "Enabled clang-tidy")
+endif()
+
+if(SPDLOG_BUILD_PIC)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
+
+set(CMAKE_C_VISIBILITY_PRESET hidden)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
 add_library(c12cxx) # initialized below
 add_library(c12cxx::c12cxx ALIAS c12cxx)
@@ -56,6 +69,7 @@ set(sources
     include/c12cxx/details/ValueAccessor.h              
     src/dllmain.cpp
     src/isocalendar.cpp
+    src/utfutils.cpp
     src/Component.cpp
     src/c12cxx.cpp
     src/exports.cpp)
@@ -82,14 +96,8 @@ set_target_properties(c12cxx PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
-    C_VISIBILITY_PRESET hidden
-    CXX_VISIBILITY_PRESET hidden
-    VISIBILITY_INLINES_HIDDEN ON
-    POSITION_INDEPENDENT_CODE ON
-    CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}"
     )
 
-target_clangformat_setup(c12cxx)
 
 if(C12CXX_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
     configure_package_config_file(cmake/c12cxx-config.cmake.in c12cxx-config.cmake

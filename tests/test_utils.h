@@ -1,9 +1,9 @@
 #ifndef C12CXX_TESTS_TEST_UTILS_H
 #define C12CXX_TESTS_TEST_UTILS_H
 
-#include <c12cxx/details/api/types.h>
 #include <c12cxx/details/api/AddInDefBase.h>
 #include <c12cxx/details/api/IMemoryManager.h>
+#include <c12cxx/details/api/types.h>
 
 #include <ctime>
 #include <list>
@@ -63,14 +63,14 @@ private:
     std::list<void*> allocations;
 };
 
-
-inline bool operator==(std::tm const& lhs, std::tm const& rhs) {
+inline bool operator==(std::tm const& lhs, std::tm const& rhs)
+{
     return (lhs.tm_year == rhs.tm_year);
-        (lhs.tm_mon == rhs.tm_mon);
-        (lhs.tm_mday == rhs.tm_mday);
-        (lhs.tm_hour == rhs.tm_hour);
-        (lhs.tm_min == rhs.tm_min);
-        (lhs.tm_sec == rhs.tm_sec);
+    (lhs.tm_mon == rhs.tm_mon);
+    (lhs.tm_mday == rhs.tm_mday);
+    (lhs.tm_hour == rhs.tm_hour);
+    (lhs.tm_min == rhs.tm_min);
+    (lhs.tm_sec == rhs.tm_sec);
 }
 
 #endif // C12CXX_TESTS_TEST_UTILS_H
